@@ -11,6 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import persistStore from 'redux-persist/es/persistStore';
 
 import Bootstrap from './Bootstrap';
+import AppThemeProvider from './utils/AppThemeProvider';
 
 let persistor = persistStore(store);
 
@@ -24,9 +25,11 @@ if (rootElement) {
   const root = ReactDOMClient.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-     <Provider store={store}>
+      <Provider store={store}>
         <PersistGate loading={<div>loading</div>} persistor={persistor}>
-          <Bootstrap />
+          <AppThemeProvider>
+            <Bootstrap />
+          </AppThemeProvider>
         </PersistGate>
       </Provider>
     </React.StrictMode>,

@@ -1,5 +1,42 @@
-@import './theme-variables';
 @import './fonts';
+
+  :root {
+    --background: red;
+    --foreground: 213 31% 91%;
+
+    --primary: #03adfc;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary:#c9d4c9;
+    --secondary-foreground: 110 47.4% 11.2%;
+
+    --text-color: #000000;
+
+
+    // Font Sizes
+    --heading-h1: 4rem;
+    --heading-h2: 3.5rem;
+    --heading-h3: 3rem;
+    --heading-h4: 2.75rem;
+    --heading-h5: 2.25rem;
+    --heading-h6: 1.5rem;
+    --body-base: 1rem;
+
+    }
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &:-webkit-scrollbar {
+      display: none;
+    }
+  }
 
 
 html {
@@ -7,63 +44,34 @@ html {
 }
 
 
-@media screen and (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-}
+
 
 body {
     font-family: 'Open Sans'
 }
 
 
-/* Basic Struture */
 
 
-#site-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
+/* Dark Mode */
 
-main {
-    flex: 1;
-    height: auto;
-}
+.dark {
 
-header {
-    color: var(--white);
-    padding: 2rem;
-    background-color: var(--primary);
-}
+    --background: #121212;
+    --foreground: 213 31% 91%;
 
+    --primary: #000000;
+    --primary-foreground: 210 40% 98%;
 
-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem;
-    color: var(--white);
-    background-color: var(--secondary);
-    font-size: 0.875rem;
+    --secondary: #161716;
+    --secondary-foreground: 110 47.4% 11.2%;
 
-    a {
-        color: var(--light);
+    --text-color: #ffffff;
+
+    
+
+    body {
+        background: var(--background);
     }
-}
-
-.container {
-   
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-
-    @media screen and (min-width: 80rem) {
-        max-width: 80rem;
-    }
-
-    @media screen and (min-width: 96rem) {
-        max-width:96rem;
-    }
+  
 }

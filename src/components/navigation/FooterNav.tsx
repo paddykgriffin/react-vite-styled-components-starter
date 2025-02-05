@@ -1,27 +1,21 @@
-import React from 'react';
+import styled from 'styled-components';
 import { FooterMenuLinks } from '../navigation/FooterMenuLinks';
+import { NavLink } from 'react-router-dom';
+
+const NavWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+`;
 
 const FooterNav = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '16px',
-      }}
-    >
+    <NavWrapper>
       {FooterMenuLinks.map(item => (
-        <a
-          href={item.path}
-          key={item.title}
-          style={{
-            fontSize: '0.875rem',
-            textDecoration: 'none',
-          }}
-        >
+        <NavLink to={item.path} key={item.title}>
           {item.title}
-        </a>
+        </NavLink>
       ))}
-    </div>
+    </NavWrapper>
   );
 };
 

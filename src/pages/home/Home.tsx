@@ -1,25 +1,22 @@
-import Heading from '../../components/typography/Heading';
-import HeadingH2 from '../..//components/typography/HeadingH2';
-import HeadingH3 from '../../components/typography/HeadingH3';
-import HeadingH4 from '../../components/typography/HeadingH4';
-import Paragraph from '../../components/typography/Paragraph';
-import Layout from '../../components/layout/Layout';
-import Container from '../../components/layout/Container';
+import Layout from '@/components/layout/Layout';
+import Typography from '@/components/typography/Typography';
+import Section from '@/components/layout/Section';
 
 const Home = () => {
   return (
     <Layout pageTitle="Home">
-      <Container>
-        <Heading title="Heading h1" />
-        <HeadingH2 title="Heading h2" />
-        <HeadingH3 title="Heading h3" />
-        <HeadingH4 title="Heading h4" />
-        <Paragraph
-          text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus qui fugit molestias nulla voluptatum repellat hic
-      repellendus id quae alias minima praesentium, non provident exercitationem pariatur mollitia, ratione impedit
-      tempora quibusdam reprehenderit eveniet, iste dolorem! Neque accusamus repudiandae fugiat beatae."
-        />
-      </Container>
+      <Section>
+        <Typography variant="h1">Heading h1</Typography>
+        <Typography variant="h2">Heading h2</Typography>
+        <Typography variant="h3">Heading h3</Typography>
+        <Typography variant="h4">Heading h4</Typography>
+        <Typography variant="h5">Heading h5</Typography>
+        <Typography variant="h6">Heading h6</Typography>
+        <Typography variant="body1">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, doloribus rem eum tenetur modi optio accusantium
+          repellat cumque facere omnis laudantium, harum est aut alias iure quas obcaecati architecto atque!
+        </Typography>
+      </Section>
     </Layout>
   );
 };

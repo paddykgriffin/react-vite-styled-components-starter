@@ -2,7 +2,7 @@ import { SiteConfig } from './types/site-config-types';
 
 const siteConfig: SiteConfig = {
   siteName: 'Site Boilerplate',
-  darkMode: false,
+  darkMode: true,
   theme: {
     color: {
       primary: {

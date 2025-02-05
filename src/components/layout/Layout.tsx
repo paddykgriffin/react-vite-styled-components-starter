@@ -2,12 +2,24 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { useEffect } from 'react';
 import type React from 'react';
+import styled from 'styled-components';
 
 interface LayoutProps {
   children: React.ReactNode;
   emptyPage?: boolean;
   pageTitle?: string;
 }
+
+const SiteWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const MainWrapper = styled.main`
+  flex: 1;
+  height: auto;
+`;
 
 const Layout = ({ pageTitle, emptyPage, children }: LayoutProps) => {
   useEffect(() => {
@@ -23,11 +35,11 @@ const Layout = ({ pageTitle, emptyPage, children }: LayoutProps) => {
       {emptyPage ? (
         children
       ) : (
-        <div id="site-wrapper">
+        <SiteWrapper>
           <Header />
-          <main>{children}</main>
+          <MainWrapper>{children}</MainWrapper>
           <Footer />
-        </div>
+        </SiteWrapper>
       )}
     </>
   );
