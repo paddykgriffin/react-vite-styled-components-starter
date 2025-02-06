@@ -1,20 +1,17 @@
 import React, { type ReactNode, useEffect, useRef, useState } from 'react';
-import { cn } from '@/utils/utils';
-import Typography from '@/components/typography/Typography';
-import TypographyProps from '@/components/typography/Typography';
+import styled from 'styled-components';
+import Typography, { TypographyProps } from '@/components/typography/Typography';
 import type { HTMLProps } from '@/types/common.types';
 import Container from '@/components/layout/Container';
-//import { Skeleton } from "@/components/ui/skeleton";
 import { HeroContextType, ContentProps, BackgroundProps, HeroComposition, ScrollIconProps } from './hero.interfaces';
 import { LuChevronDown, LuMouse } from 'react-icons/lu';
-
 import useWindowSize from '@/hooks/useWindowSize';
 
 const HeroContext = React.createContext<HeroContextType | undefined>(undefined);
 
 const useHeroContext = () => {
   const context = React.useContext(HeroContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useHeroContext must be used within a Hero Component');
   }
   return context;
@@ -23,116 +20,143 @@ const useHeroContext = () => {
 export interface HeroProps extends HTMLProps<'section'> {
   children: ReactNode;
 }
+
+const BackgroundWrapper = styled.div<{ isLoaded: boolean; subPageHero?: boolean }>`
+  grid-column-start: 1;
+  grid-row-start: 1;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.5s;
+  opacity: ${({ isLoaded }) => (isLoaded ? '1' : '0')};
+`;
+const Overlay = styled.div<{ isLoaded: boolean }>`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.5s;
+  opacity: ${({ isLoaded }) => (isLoaded ? '1' : '0')};
+  z-index: 1;
+`;
+
 const Background = ({
   type,
   src,
   srcMobile,
-  subPageHero,
   imageAlt = 'Hero Banner',
   hideTransparentLayer = false,
 }: BackgroundProps) => {
   const { isLoaded, setIsLoaded } = useHeroContext();
   const mediaRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const handleLoad = () => {
-      if (mediaRef.current) {
-        setTimeout(() => setIsLoaded(true), 300);
-      }
-    };
-
-    const currentMediaRef = mediaRef.current;
-
-    if (currentMediaRef) {
-      if (type === 'img') {
-        if ((currentMediaRef as HTMLImageElement).complete) {
-          handleLoad();
-        } else {
-          (currentMediaRef as HTMLImageElement).onload = handleLoad;
-        }
-      }
-    }
-  }, [type, setIsLoaded]);
-
-  const mediaClass = cn(
-    'col-start-1 row-start-1 h-auto lg:h-[80vh] xl:h-[90vh] w-full transition-opacity duration-500',
-    {
-      'opacity-0': !isLoaded,
-      'opacity-100': isLoaded,
-      'lg:h-[14vh] xl:h-[14vh]': subPageHero === true,
-    },
-  );
-
   const { width } = useWindowSize();
 
+  useEffect(() => {
+    if (mediaRef.current) {
+      if ((mediaRef.current as HTMLImageElement).complete) {
+        setIsLoaded(true);
+      } else {
+        (mediaRef.current as HTMLImageElement).onload = () => setIsLoaded(true);
+      }
+    }
+  }, [setIsLoaded]);
+
   return (
-    <>
-      {type === 'img' ? (
-        width && width <= 640 ? (
-          <img
-            alt={imageAlt}
-            src={srcMobile || src}
-            ref={mediaRef as React.RefObject<HTMLImageElement>}
-            className={mediaClass}
-            width={600}
-            style={{ width: '100%' }}
-          />
-        ) : (
-          <img
-            alt={imageAlt}
-            src={src}
-            ref={mediaRef as React.RefObject<HTMLImageElement>}
-            className={mediaClass}
-            width={992}
-            style={{ width: '100%' }}
-          />
-        )
-      ) : null}
-      {!hideTransparentLayer && (
-        <div
-          className={cn('inset-0 col-start-1 row-start-1 bg-black/50 transition-opacity duration-500', {
-            'opacity-0': !isLoaded,
-            'opacity-100': isLoaded,
-          })}
-          aria-hidden="true"
+    <BackgroundWrapper isLoaded={isLoaded} id="background-image">
+      {type === 'img' && (
+        <img
+          alt={imageAlt}
+          src={width && width <= 640 ? srcMobile || src : src}
+          ref={mediaRef}
+          width={width && width <= 640 ? 600 : 992}
+          style={{ width: '100%' }}
         />
       )}
-    </>
+      {!hideTransparentLayer && <Overlay isLoaded={isLoaded} aria-hidden="true" />}
+    </BackgroundWrapper>
   );
 };
+
+const ContentWrapper = styled.div`
+  grid-column-start: 1;
+  grid-row-start: 1;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+`;
 
 const Content = ({ children, className }: ContentProps) => {
   const { isLoaded } = useHeroContext();
   if (!isLoaded) return null;
   return (
-    <div className={cn('col-start-1 row-start-1 flex items-center', className)}>
+    <ContentWrapper className={className} id="content">
       <Container className="py-0">{children}</Container>
-    </div>
+    </ContentWrapper>
   );
 };
 
-const Title = ({ children, className, ...props }: typeof TypographyProps) => (
-  <Typography variant="h1" {...props} className={cn('text-4xl', className)}>
-    {children}
-  </Typography>
-);
+const Title: React.FC<TypographyProps> = ({ children, className }) => {
+  return (
+    <Typography variant="h1" className={className}>
+      {children}
+    </Typography>
+  );
+};
 
-const SubTitle = ({ children, className }: typeof TypographyProps) => (
-  // <Typography variant="body1" {...props} className={cn('text-2xl font-light', className)}>
-  //   {children}
-  // </Typography>
-  <Typography variant="body1">{children}</Typography>
-);
+const SubTitle: React.FC<TypographyProps> = ({ children, className }) => {
+  return (
+    <Typography variant="body1" className={className}>
+      {children}
+    </Typography>
+  );
+};
+
+const ScrollIconWrapper = styled.div`
+  grid-column-start: 1;
+  grid-row-start: 1;
+  display: flex;
+  align-items: flex-end;
+  z-index: 2;
+  padding-bottom: 3rem;
+`;
+const ScrollButton = styled.button`
+  cursor: pointer;
+  animation: bounce 4s infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+
+  & svg {
+    width: 40px;
+    height: 40px;
+    stroke: var(--text-color);
+  }
+`;
+
+const ScrollAlignment = styled.div<{ align: 'left' | 'center' | 'right' }>`
+  display: flex;
+  justify-content: ${({ align }) => {
+    switch (align) {
+      case 'left':
+        return 'flex-start';
+      case 'center':
+        return 'center';
+      case 'right':
+      default:
+        return 'flex-end';
+    }
+  }};
+`;
 
 const ScrollIcon = ({ className, align = 'right' }: ScrollIconProps) => {
   const { isLoaded, heroBannerRef } = useHeroContext();
 
   const scrollToBottom = () => {
     if (heroBannerRef.current) {
-      const sectionBottom = heroBannerRef.current.getBoundingClientRect().bottom;
-
       window.scrollTo({
-        top: window.scrollY + sectionBottom,
+        top: window.scrollY + heroBannerRef.current.getBoundingClientRect().bottom,
         behavior: 'smooth',
       });
     }
@@ -140,54 +164,37 @@ const ScrollIcon = ({ className, align = 'right' }: ScrollIconProps) => {
 
   if (!isLoaded) return null;
 
-  let alignClass = '';
-  switch (align) {
-    case 'left':
-      alignClass = 'justify-start';
-      break;
-    case 'center':
-      alignClass = 'justify-center';
-      break;
-    case 'right':
-      alignClass = 'justify-end';
-      break;
-    default:
-      alignClass = 'justify-end';
-  }
-
   return (
-    <div className="col-start-1 row-start-1 flex items-end">
-      <Container className="animate-fade-down animate-duration-1000 sm:mb-0 md:mb-6 md:block lg:mb-14">
-        <div className={cn('flex', alignClass)}>
-          <button
-            onClick={scrollToBottom}
-            type="button"
-            className={cn('animate-[bounce_4s_infinite] cursor-pointer', className)}
-          >
-            <div className="z-20 flex flex-col items-center gap-2">
-              <Typography variant="body2" className="font-semibold text-white">
-                scroll
-              </Typography>
-              <LuMouse className="h-10 w-10 text-white" />
-              <LuChevronDown className="h-6 w-10 text-white" />
-            </div>
-          </button>
-        </div>
+    <ScrollIconWrapper id="scroll">
+      <Container>
+        <ScrollAlignment align={align}>
+          <ScrollButton onClick={scrollToBottom} className={className}>
+            <Typography variant="body2">scroll</Typography>
+            <LuMouse />
+            <LuChevronDown />
+          </ScrollButton>
+        </ScrollAlignment>
       </Container>
-    </div>
+    </ScrollIconWrapper>
   );
 };
+
+const HeroSection = styled.section`
+  position: relative;
+  display: grid;
+  width: 100%;
+`;
 
 const Hero: React.FC<HeroProps> & HeroComposition = Object.assign(
   ({ children, className, ...props }: HeroProps) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const heroBannerRef = useRef<HTMLDivElement>(null);
+    const heroBannerRef = useRef<HTMLDivElement | null>(null);
 
     return (
       <HeroContext.Provider value={{ isLoaded, setIsLoaded, heroBannerRef }}>
-        <section id="hero-banner" ref={heroBannerRef} className={cn('relative grid w-full', className)} {...props}>
+        <HeroSection id="hero-banner" ref={heroBannerRef} className={className} {...props}>
           {children}
-        </section>
+        </HeroSection>
       </HeroContext.Provider>
     );
   },
@@ -199,5 +206,7 @@ const Hero: React.FC<HeroProps> & HeroComposition = Object.assign(
     ScrollIcon,
   },
 );
+
+Hero.displayName = 'Hero';
 
 export { Hero, Background, Content, Title, SubTitle, ScrollIcon };

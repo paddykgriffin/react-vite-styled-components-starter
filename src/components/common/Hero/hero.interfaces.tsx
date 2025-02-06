@@ -1,6 +1,5 @@
-import React, { type ReactNode } from 'react';
 import { TypographyProps } from '@/components/typography/Typography';
-
+import React, { type ReactNode } from 'react';
 interface HeroContextType {
   isLoaded: boolean;
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-import { ElementType, forwardRef } from 'react';
+import { ElementType, forwardRef, ReactNode } from 'react';
 
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body1' | 'body2';
 
-interface TypographyProps {
+export type TypographyProps = {
   variant?: TypographyVariant;
-  children: string;
+  children: ReactNode;
   component?: ElementType;
   align?: 'none' | 'left';
   textColor?: 'default';
-}
+  className?: string;
+};
 
 const variantStyles = {
   h1: `
