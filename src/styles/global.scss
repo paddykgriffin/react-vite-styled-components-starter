@@ -1,17 +1,14 @@
 @import './fonts';
 
   :root {
-    --background: red;
+    --background: #f2f2f2;
     --foreground: 213 31% 91%;
-
     --primary: #03adfc;
     --primary-foreground: 210 40% 98%;
-
     --secondary:#c9d4c9;
     --secondary-foreground: 110 47.4% 11.2%;
-
     --text-color: #000000;
-
+    --hero-white: #ffffff;
 
     // Font Sizes
     --heading-h1: 4rem;
@@ -38,37 +35,23 @@
     }
   }
 
-
 html {
     scroll-behavior: smooth;
 }
-
-
-
 
 body {
     font-family: 'Open Sans'
 }
 
-
-
-
 /* Dark Mode */
-
 .dark {
-
     --background: #121212;
     --foreground: 213 31% 91%;
-
     --primary: #000000;
     --primary-foreground: 210 40% 98%;
-
     --secondary: #161716;
     --secondary-foreground: 110 47.4% 11.2%;
-
     --text-color: #ffffff;
-
-    
 
     body {
         background: var(--background);

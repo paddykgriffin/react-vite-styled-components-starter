@@ -94,17 +94,17 @@ const Content = ({ children, className }: ContentProps) => {
   );
 };
 
-const Title: React.FC<TypographyProps> = ({ children, className }) => {
+const Title: React.FC<TypographyProps> = ({ children, className, textColor = 'default' }) => {
   return (
-    <Typography variant="h1" className={className}>
+    <Typography variant="h1" className={className} textColor={textColor}>
       {children}
     </Typography>
   );
 };
 
-const SubTitle: React.FC<TypographyProps> = ({ children, className }) => {
+const SubTitle: React.FC<TypographyProps> = ({ children, className, textColor = 'default' }) => {
   return (
-    <Typography variant="body1" className={className}>
+    <Typography variant="body1" className={className} textColor={textColor}>
       {children}
     </Typography>
   );
@@ -117,6 +117,9 @@ const ScrollIconWrapper = styled.div`
   align-items: flex-end;
   z-index: 2;
   padding-bottom: 3rem;
+  & p {
+    color: var(--hero-white);
+  }
 `;
 const ScrollButton = styled.button`
   cursor: pointer;
@@ -131,7 +134,7 @@ const ScrollButton = styled.button`
   & svg {
     width: 40px;
     height: 40px;
-    stroke: var(--text-color);
+    stroke: var(--hero-white);
   }
 `;
 

@@ -9,8 +9,8 @@ const Home = () => {
       <Hero>
         <Background type="img" src="https://picsum.photos/id/1/1920/800" srcMobile="/images/hero-mobile.png" />
         <Content>
-          <Title>Main Tagline</Title>
-          <SubTitle className="m-5 text-white max-w-[900px] mx-auto">
+          <Title textColor="white">Main Tagline</Title>
+          <SubTitle textColor="white">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam molestiae laborum eum minima itaque
             praesentium.
           </SubTitle>

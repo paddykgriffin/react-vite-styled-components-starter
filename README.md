@@ -13,7 +13,7 @@ This project is built with React, Vite (for bundling) and Styled Components. Rea
 2. Start the dev server. And open http://localhost:3000 in your browser.
 
 ```
- pnpm dev
+ pnpm run dev
 ```
 
 2. Build your product.
@@ -40,3 +40,4 @@ A couple of basic comoponents have been prebuilt to the template up and running 
 - Navigations
 - Hero
 - Logo
+- dark mode toggle (provided by redux toolkit etc..)

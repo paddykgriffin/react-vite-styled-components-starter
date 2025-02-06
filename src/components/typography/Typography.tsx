@@ -8,7 +8,7 @@ export type TypographyProps = {
   children: ReactNode;
   component?: ElementType;
   align?: 'none' | 'left';
-  textColor?: 'default';
+  textColor?: 'default' | 'white' | 'primary' | 'secondary';
   className?: string;
 };
 
@@ -52,6 +52,9 @@ const alignStyles = {
 
 const textColorStyles = {
   default: `color: var(--text-color);`,
+  white: `color: var(--hero-white);`,
+  primary: `color: var(--primary-color);`,
+  secondary: `color: var(--secondary-color);`,
 };
 
 const Typography = styled.p<TypographyProps>`
